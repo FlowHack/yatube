@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 from .models import Post
 
 
@@ -9,5 +9,5 @@ def index(request):
     for item in latest:
         output.append(item.text)
 
-    return HttpResponse('\n'.join(output))
+    return render(request, 'index.html', {'posts': latest})
 # Create your views here.
