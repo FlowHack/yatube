@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Редактирование {{ author }}{% endblock %}
+{% load user_filters %}
+{% load thumbnail %}
+{% block content %}
+  <main role="main" class="container">
+    <div class="row">
+      {% include "includes/profile.html" with author=author profile=True %}
+      <div class="col-md-9">
+        <div style="border-radius: 30px;"
+             class="card mb-3 mt-1 shadow-sm border_dark bg-dark">
+          <form method="POST" enctype="multipart/form-data"
+                action="{% url "posts:profile_edit" author.username %}">
+            {% csrf_token %}
+            <div class="justify-content-center" style="padding: 2em">
+              <h3 class="text-center text-light">Аватарка</h3>
+              <div style="display: table; margin: auto auto 1em;"
+                   class="text-light form-group form-cont">
+                {{ form.avatar|addclass:"text-light form-control-sm" }}
+              </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Имя и Фамилия</span>
+                </div>
+                {{ form.first_name|addclass:"form-control bg-dark text-light" }}
+                {{ form.last_name|addclass:"form-control bg-dark text-light" }}
+              </div>
+              <div class="input-group mt-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Логин и пароль</span>
+                </div>
+                {{ form.username|addclass:"form-control bg-dark text-light" }}
+                {{ form.email|addclass:"form-control bg-dark text-light" }}
+              </div>
+              <div style="display: table; margin: auto">
+                <button type="submit" style="margin: auto"
+                        class="btn btn-outline-light mt-2">
+                  Применить
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

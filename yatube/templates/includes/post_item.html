@@ -1,0 +1,72 @@
+{% load static %}
+{% load thumbnail %}
+<div style="border-radius: 30px;"
+     class="card mb-3 mt-1 shadow-sm border_dark bg-dark">
+
+  <!-- Отображение картинки -->
+  {% thumbnail post.image "700x339" crop="center" upscale=True as im %}
+    <img style="border-radius: 30px;" class="card-img" src="{{ im.url }}"/>
+  {% endthumbnail %}
+  <!-- Отображение текста поста -->
+  <div class="card-body">
+    <p class="card-text text-light">
+      <!-- Ссылка на автора через @ -->
+      <a href="{% url 'posts:profile' post.author.username %}"
+         name="id_post_{{ post.id }}">
+        <strong class="d-block text-gray-dark">@{{ post.author }}</strong>
+      </a>
+      {{ post.text|linebreaksbr }}
+    </p>
+
+    <!-- Если пост относится к какому-нибудь сообществу, то отобразим ссылку на него через # -->
+    {% if post.group %}
+      <a class="card-link muted"
+         href="{% url 'posts:group_posts' post.group.slug %}">
+        <strong class="d-block text-gray-dark">#{{ post.group.title }}</strong>
+      </a>
+    {% endif %}
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="btn-group">
+        <a class="like_ico_a"
+           href="{% url 'posts:like_or_unlike' post.author post.id %}?next={{ request.get_full_path }}"
+           role="button">
+          {% if post.liked %}
+            <img src="{% static "ico/like-active.png" %}" class="like_ico">
+          {% else %}
+            <img src="{% static "ico/like.png" %}" class="like_ico">
+          {% endif %}
+          <strong class="like_ico_text text-light">
+            {% if post.likes.exists %}
+              {{ post.likes.count }}
+            {% endif %}
+          </strong>
+        </a>
+        <!-- Отображение ссылки-иконки на просмотр поста с возможностью комментирования -->
+        <a class="comment_ico_a"
+           href="{% url 'posts:post' post.author.username post.id %}"
+           role="button">
+          <img src="{% static "ico/comment.png" %}" class="comment_ico">
+          <strong class="comment_text text-light">
+            {% if post.comments.exists %}
+              {{ post.comments.count }}
+            {% endif %}
+          </strong>
+        </a>
+
+        <!-- Ссылка на редактирование поста для автора -->
+        {% if user == post.author %}
+          <a class="btn btn-outline-light btn_edit_post"
+             href="{% url 'posts:post_edit' post.author.username post.id %}"
+             role="button">
+            <i>Редактировать</i>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Дата публикации поста -->
+      <small style="margin-top: 10px;"
+             class="text-muted">{{ post.pub_date|date:"j N Yг. h:i" }}</small>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load cache %}
+{% load thumbnail %}
+{% block title %}Топ авторов{% endblock %}
+{% block content %}
+  {% include "includes/menu.html" with authors=True %}
+  {% if page.has_other_pages %}
+    {% include "includes/paginator.html" with items=page paginator=paginator %}
+  {% endif %}
+  {% cache 20 authors_page page %}
+    <div class="container">
+      <div class="row justify-content-md-center">
+        {% for author in page %}
+          <div class="card bg-dark"
+               style="width: 20rem; border-radius: 30px; margin-right: 1em; margin-bottom: 2em">
+            <div class="card-body">
+              {% thumbnail author.avatar "540x339" crop="center" upscale=True as im %}
+                <img style="border-radius: 30px;" class="card-img mb-3"
+                     src="{{ im.url }}"/>
+              {% endthumbnail %}
+              <h5 style="margin-bottom: 1em" align="center"
+                  class="card-title text-light">
+                {{ author.first_name }} {{ author.last_name }}
+              </h5>
+              <p class="card-text text-muted-light text-center">
+                {% if author.status %}
+                  {{ author.status }}
+                {% else %}
+                  Я - обычный юзер :)
+                {% endif %}
+              </p>
+              <p align="center">
+                <a href="{% url "posts:profile" author.username %}"
+                   class="btn btn-outline-light">
+                  {{ author.username }}
+                </a>
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endcache authors_page %}
+  {% if page.has_other_pages %}
+    {% include "includes/paginator.html" with items=page paginator=paginator %}
+  {% endif %}
+{% endblock %}

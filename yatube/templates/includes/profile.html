@@ -1,0 +1,62 @@
+{% load thumbnail %}
+<div class="col-md-3 mb-3 mt-1">
+  <div class="card bg-dark" style="border-radius: 30px; width: 17em">
+    <ul class="list-group list-group-flush">
+      <li style="border-radius: 30px 30px 0 0" class="list-group-item bg-dark">
+        {% thumbnail author.avatar "540x339" crop="center" upscale=True as im %}
+          <img style="border-radius: 30px;" class="card-img mb-3"
+               src="{{ im.url }}"/>
+        {% endthumbnail %}
+      </li>
+      <li class="list-group-item bg-dark">
+        <div class="card-body">
+          <h4 class="text-light text-center">{{ author.first_name }} {{ author.last_name }}</h4>
+          <h5 class="text-muted text-center">@{{ author.username }}</h5>
+        </div>
+      </li>
+      <li class="list-group-item bg-dark">
+        <div class="h6 text-muted-light">
+          Подписчиков: {{ author.following.count }} <br/>
+          Подписан: {{ author.follower.count }}
+        </div>
+      </li>
+      <li style="border-radius: 0 0 30px 30px"class="list-group-item bg-dark">
+        <div class="h6 text-muted-light">
+          Записей: {{ author.posts.all.count }}
+        </div>
+      </li>
+      {% if profile %}
+        <li class="list-group-item bg-dark"
+            style="border-radius: 0 0 30px 30px;">
+        {% if request.user != author %}
+          {% if following %}
+            <p align="center">
+              <a class="btn btn-outline-secondary"
+                 href="{% url 'posts:profile_unfollow' author.username %}"
+                 role="button">
+                Отписаться
+              </a>
+            </p>
+          {% else %}
+            <p align="center">
+              <a class="btn btn-outline-danger"
+                 href="{% url 'posts:profile_follow' author.username %}"
+                 role="button">
+                Подписаться
+              </a>
+            </p>
+          {% endif %}
+        {% else %}
+          <p align="center">
+              <a class="btn btn-outline-danger"
+                 href="{% url 'posts:profile_edit' author.username %}"
+                 role="button">
+                Редактировать
+              </a>
+            </p>
+        {% endif %}
+      {% endif %}
+      </li>
+    </ul>
+  </div>
+</div>

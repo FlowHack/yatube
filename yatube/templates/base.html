@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}The Last Social Media You'll Ever Need{% endblock %} | Yatube</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
-    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
-    <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"> в своей сети цшаш</script>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}{% endblock %}| Yatube</title>
+  {% load static %}
+  <link rel="stylesheet"
+        href="{% static "bootstrap/dist/css/bootstrap.min.css" %}">
+  <link rel="stylesheet"
+        href="{% static "my_style.css" %}">
+  <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}">
+  <script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+  <script src="{% static "bootstrap/dist/js/bootstrap.min.js" %}"></script>
+  <style>
+      body {
+          background: url({% static "fon.jpg" %}) no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+      }
+  </style>
 </head>
+
 <body>
-    {% include 'nav.html' %}
-    <main>
-        <div class="container">
-            <h1>{% block header %}{% endblock %}</h1>
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
-    {% include 'footer.html' %}
+{% include 'nav.html' %}
+<main>
+  <div class="container">
+    <h1 style="color: rgb(200, 200, 200)" align="center">
+      {% block header %}{% endblock %}</h1>
+    {% block content %}
+    {% endblock %}
+  </div>
+</main>
+{% include 'footer.html' %}
 </body>
+
 </html>

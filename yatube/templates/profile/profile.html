@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ author }}{% endblock %}
+{% load user_filters %}
+{% block content %}
+  <main role="main" class="container">
+    <div class="row">
+      {% include "includes/profile.html" with author=author profile=True %}
+      <div class="col-md-9">
+        <div style="border-radius: 30px; padding: 1em"
+             class="card mb-3 mt-1 shadow-sm border_dark bg-dark text-center text-light">
+          {% if author.status %}
+            {{ author.status|safe|linebreaks }}
+          {% else %}
+            <span>У меня ещё нет статуса, но когда-то он должен появиться</span>
+          {% endif %}
+          {% if request.user == author %}
+            <div style="font-size: 12px;" class="text-muted-light text-right">
+              <a class="p-2 text-muted" data-toggle="collapse"
+                 href="#form_edit_status" role="button" aria-expanded="false"
+                 aria-controls="form_edit_status">Изменить</a>
+            </div>
+            <form method="POST" action="{% url "posts:status_edit" author %}">
+              {% csrf_token %}
+              <div style="margin-top: 1em" class="collapse"
+                   id="form_edit_status">
+                {{ form.status|addclass:"form-control text-center" }}
+                <div style="display: table; margin: 0.5em auto auto;">
+                  <button type="submit" class="btn btn-outline-light">
+                    Сохранить
+                  </button>
+                </div>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+        {% for post in page %}
+          {% include "includes/post_item.html" with post=post %}
+        {% endfor %}
+        {% if page.has_other_pages %}
+          {% include "includes/paginator.html" with items=page paginator=paginator %}
+        {% endif %}
+      </div>
+    </div>
+  </main>
+{% endblock %}

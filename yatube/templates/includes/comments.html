@@ -1,0 +1,70 @@
+<!-- Форма добавления комментария -->
+{% load user_filters %}
+{% load thumbnail %}
+{% if user.is_authenticated %}
+  <div style="border-radius: 30px; width: 60rem;" class="card my-4 bg-dark">
+    <form method="post"
+          action="{% url "posts:add_comment" username=post.author.username post_id=post.id %}">
+      {% csrf_token %}
+      <h5 align="center" class="card-header text-light">Добавить
+        комментарий</h5>
+      <div class="card-body">
+        <div class="form-group">
+          {{ form.text|addclass:"form-control my_form bg-dark text-light" }}
+        </div>
+        <div style="text-align: center">
+          <button type="submit" class="btn btn-outline-light">Отправить
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endif %}
+{% if page.has_other_pages %}
+  {% include "includes/paginator.html" with items=page paginator=paginator %}
+{% endif %}
+
+<!-- Комментарии -->
+{% for comment in page %}
+  <div style="width: 50rem; border-radius: 30px; padding: 1.5em; margin: auto"
+       class="media mb-4 bg-dark">
+    {% thumbnail comment.author.avatar "94x94" crop="center" upscale=True as im %}
+      <img style="border-radius: 10px" src="{{ im.url }}"
+           class="align-self-start mr-3">
+    {% endthumbnail %}
+    <div class="media-body">
+      <h6 class="mt-0">
+        <a href="{% url 'posts:profile' comment.author.username %}"
+           name="comment_{{ comment.id }}">
+          @{{ comment.author.username }}
+        </a>
+      </h6>
+      <div class="text-light">
+        <p>{{ comment.text | linebreaksbr }}</p>
+      </div>
+      <div class="row">
+        <div class="col-1">
+          {% if request.user == comment.author or request.user == post.author %}
+            <p style="font-size: 12px" class="text-muted-light">
+              <a class="p-2 text-muted-light"
+                 href="{% url "posts:comment_delete" post.author post.id comment.id %}">
+                <b>Удалить</b>
+              </a>
+            </p>
+          {% endif %}
+        </div>
+        <div class="col-10">
+          <div class="text-right">
+            <small class="text-muted-light">
+              {{ comment.created|date:"d b Y г. g:i" }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% if page.has_other_pages %}
+  {% include "includes/paginator.html" with items=page paginator=paginator %}
+{% endif %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ post.author.first_name }}
+  {{ post.author.last_name }}{% endblock %}
+{% block content %}
+  <main role="main" class="container">
+    <div class="row">
+      {% include "includes/profile.html" with author=post.author %}
+      <div style="margin: auto;" class="col-md-9">
+        {% include "includes/post_item.html" with post=post %}
+      </div>
+      <section style="margin: auto">
+        {% include "includes/comments.html" with comments=comments form=form post=post %}
+      </section>
+    </div>
+  </main>
+{% endblock %}

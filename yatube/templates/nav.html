@@ -1,13 +1,41 @@
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="/"><span style="color:red">Ya</span>tube</a>
-    <nav class="my-2 my-md-0 mr-md-3">
-        {% if user.is_authenticated %}
-        Пользователь: {{ user.username }}.
-        <a class="p-2 text-dark" href="{% url 'password_change' %}">Изменить пароль</a>
-        <a class="p-2 text-dark" href="{% url 'logout' %}">Выйти</a>
-        {% else %}
-        <a class="p-2 text-dark" href="{% url 'login' %}">Войти</a> |
-        <a class="p-2 text-dark" href="{% url 'signup' %}">Регистрация</a>
-        {% endif %}
-    </nav>
+{% load static %}
+<nav class="navbar navbar-dark bg-dark my_nav">
+  <div>
+    <a class="navbar-brand" href="/">
+      <img src="{% static "favicon.png" %}"><strong
+        style="font-size: 28px; vertical-align: bottom">Tube</strong>
+    </a>
+  </div>
+  <nav class="my-2 my-md-0 mr-md-3">
+    {% if user.is_authenticated %}
+      <div class="btn-group">
+        <button type="button" class="btn btn-outline-light"
+                onclick="window.location.href = {% url "posts:profile" user.username %};">
+          <b>@{{ user.username }}</b>
+        </button>
+        <button type="button"
+                class="btn btn-outline-light dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item"
+             href="{% url "posts:profile" user.username %}">
+            @{{ user.username }}
+          </a>
+          <a class="dropdown-item" href="{% url "posts:new_post" %}">
+            Новая запись
+          </a>
+          <a class="dropdown-item" href="{% url 'password_change' %}">
+            Изменить пароль
+          </a>
+          <div class="dropdown-divider text-light"></div>
+          <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+        </div>
+      </div>
+    {% else %}
+      <a class="p-2 text-light" href="{% url 'login' %}">Войти</a> |
+      <a class="p-2 text-light" href="{% url 'signup' %}">Регистрация</a>
+    {% endif %}
+  </nav>
 </nav>

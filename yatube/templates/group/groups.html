@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Все группы{% endblock %}
+{% block content %}
+  {% include "includes/menu.html" with groups=True %}
+  {% if page.has_other_pages %}
+      {% include "includes/paginator.html" with items=page paginator=paginator %}
+    {% endif %}
+  {% for group in page %}
+    <div class="card text-center bg-dark groups_cards">
+      <div class="card-body">
+        <h5 class="card-title text-light">{{ group.title }}</h5>
+        <p class="card-text text-light">{{ group.description }}</p>
+        <a href="{% url 'posts:group_posts' group.slug %}"
+           class="btn btn-outline-light">Перейти на страницу группы</a>
+      </div>
+    </div>
+    {% if page.has_other_pages %}
+      {% include "includes/paginator.html" with items=page paginator=paginator %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+{% if post %}Редактирование поста{% else %}Создание поста{% endif %}
+{% endblock %}
+{% block header %}
+{% if post %}Редактировать пост{% else %}Создайте новый пост!{% endif %}
+{% endblock %}
+{% load user_filters %}
+{% block content %}
+{% if post %}
+<form method="POST" enctype="multipart/form-data" action="{% url "posts:post_edit" post.author.username post.id %}">
+  {% else %}
+  <form method="POST" enctype="multipart/form-data" action="{% url "posts:new_post" %}">
+    {% endif %}
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group row" aria-required={% if field.field.required %}"true"{% else %}"false" {% endif %}>
+      <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-right text-light">
+        {{ field.label }}{% if field.field.required %}
+        <span class="required">*</span>{% endif %}
+      </label>
+      <div class="col-md-6">
+        {% if field == form.image %}
+        <div class="text-light">
+          {{ field|addclass:"text-light" }}
+        </div>
+        {% else %}
+        {{ field|addclass:"form-control text-light border_dark bg-dark" }}
+        {% endif %}
+        {% if field.help_text %}
+        <small id="{{ field.id_for_label }}-help" class="form-text text-muted-light">{{ field.help_text|safe }}
+        </small>
+        {% endif %}
+        {% if field.errors %}
+        <div class="alert-danger block_withou_marker" role="alert">
+          {{ field.errors }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    <div class="col-md-6 offset-md-4">
+      <button type="submit" class="btn btn-outline-light">
+        {% if post %}Сохранить{% else %}Добавить{% endif %}
+      </button>
+      {% if post %}
+      <a type="button" class="btn btn-outline-danger" href="{% url "posts:post_delete" post.author.username post.id %}">
+        Удалить
+      </a>
+      {% endif %}
+    </div>
+  </form>
+  {% endblock %}
