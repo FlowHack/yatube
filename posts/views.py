@@ -153,19 +153,12 @@ def post_view(request, username, post_id):
         id=post_id
     )
     form = CommentForm()
-
-    paginator = Paginator(
-        post.comments.all(),
-        addition_settings.NUMBER_ITEM_PAGINATOR_COMMENTS
-    )
-
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
+    comments = post.comments.all()
 
     return render(
         request,
         'posts/post.html',
-        {'post': post, 'page': page, 'paginator': paginator, 'form': form}
+        {'post': post, 'comments': comments, 'form': form}
     )
 
 

@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
   <div style="border-radius: 30px; width: 60rem;" class="card my-4 bg-dark">
     <form method="post"
-          action="{% url "posts:add_comment" username=post.author.username post_id=post.id %}">
+          action="{% url 'posts:add_comment' username=post.author.username post_id=post.id %}">
       {% csrf_token %}
       <h5 align="center" class="card-header text-light">Добавить
         комментарий</h5>
@@ -20,12 +20,9 @@
     </form>
   </div>
 {% endif %}
-{% if page.has_other_pages %}
-  {% include "includes/paginator.html" with items=page paginator=paginator %}
-{% endif %}
 
 <!-- Комментарии -->
-{% for comment in page %}
+{% for comment in comments %}
   <div style="width: 50rem; border-radius: 30px; padding: 1.5em; margin: auto"
        class="media mb-4 bg-dark">
     {% thumbnail comment.author.avatar "94x94" crop="center" upscale=True as im %}
@@ -47,7 +44,7 @@
           {% if request.user == comment.author or request.user == post.author %}
             <p style="font-size: 12px" class="text-muted-light">
               <a class="p-2 text-muted-light"
-                 href="{% url "posts:comment_delete" post.author post.id comment.id %}">
+                 href="{% url 'posts:comment_delete' post.author post.id comment.id %}">
                 <b>Удалить</b>
               </a>
             </p>
@@ -64,7 +61,3 @@
     </div>
   </div>
 {% endfor %}
-
-{% if page.has_other_pages %}
-  {% include "includes/paginator.html" with items=page paginator=paginator %}
-{% endif %}
