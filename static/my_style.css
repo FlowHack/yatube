@@ -1,0 +1,105 @@
+.my_nav {
+    border-radius: 30px;
+    width: 90%;
+    margin: 1em auto;
+}
+
+textarea.my_form {
+    height: 10em;
+}
+
+.block_withou_marker {
+    padding: 10px;
+    padding-bottom: 5px;
+    padding-right: 10%;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.block_withou_marker ul li {
+    list-style: none;
+}
+
+.btn_edit_post {
+    height: 3em;
+    margin-top: 10px;
+    border-radius: 30px;
+    font-size: 13px;
+    width: 11em;
+}
+
+.comment_ico_a {
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, .0);
+    width: 5em;
+}
+
+.comment_ico_a:focus, .comment_ico_a:active, .comment_ico_a:hover {
+    outline: none;
+!important;
+    box-shadow: none;
+!important;
+}
+
+.comment_ico {
+    width: 2em;
+    height: 2em
+}
+
+.comment_text {
+    font-size: 13px;
+    line-height: 16px;
+    height: 16px;
+    color: rgb(70, 70, 70)
+}
+
+.like_ico_a {
+    border-radius: 20px;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, .0);
+    width: 5em
+}
+
+.like_ico {
+    width: 2em;
+    height: 2em
+}
+
+.like_ico_text {
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 16px;
+    height: 16px;
+    color: rgb(70, 70, 70)
+}
+
+.groups_cards {
+    width: 50rem;
+    margin: 2ch auto;
+    border-radius: 20px;
+}
+
+.border_dark {
+    border: 1px solid rgb(52, 58, 64);
+}
+
+.main_border_radius {
+    border-radius: 30px;
+}
+
+.text-muted-light {
+    color: rgb(182, 182, 182)
+}
+
+.form_text {
+    color: rgb(200, 200, 200);
+}
+
+.my_footer {
+    height: 5em;
+    border-radius: 30px;
+    margin: 1em auto;
+    width: 90%;
+    padding: 1em 0;
+    border: 1px solid rgb(52, 58, 64);
+}
